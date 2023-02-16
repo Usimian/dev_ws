@@ -5,16 +5,11 @@
     <!-- As we move through the file, new things to note will be pointed out. -->
     <!-- It's not meant an example of GOOD design, but an example of some of the various features of URDF/xacro. -->
 
-
-
     <!-- This will include all the contents of example_include.xacro first. Go check it out! -->
     <xacro:include filename="example_include.xacro" />
 
-
-
     <!-- This first link called "world" is empty -->
     <link name="world"></link>
-
 
     <!-- A simple fixed joint from our empty world link, to our base. -->
     <!-- The base origin is offset from the world origin. -->
@@ -23,7 +18,6 @@
         <parent link="world"/>
         <child link="base_link"/>        
     </joint>
-
 
     <!-- base_link is a large rectangular plate. Some things to note: -->
     <!-- - We set the visual origin Z to half the box height, so that the link origin sits at the bottom of the box -->
@@ -53,8 +47,6 @@
         </inertial>
     </link>
 
-
-
     <!-- slider_joint lets slider_link move back and forth along the top of the base in one dimension.  -->
     <!-- - Origin is set to one of the top edges of the base_link box, so that our link skims across the top  -->
     <!-- - It moves along the X axis -->
@@ -65,9 +57,8 @@
         <child link="slider_link"/>
         <axis xyz="1 0 0"/>
         <limit lower="0" upper="2" velocity="100" effort="100"/>
-        <dynamics damping="100.0" friction="10.0"/>
+        <!-- <dynamics damping="10.0" friction="10.0"/> -->
     </joint>
-
 
     <!-- slider_link is the box skimming across the top of the base. Its parameters are similar to the base_link, however: -->
     <!-- - Instead of explicitly describing a colour, it uses the named material "blue". It knows about "blue" that material was included in example_include.xacro. -->
@@ -92,8 +83,6 @@
         </xacro:inertial_box>
     </link>
 
-
-
     <!-- arm_joint describes the rotation of the arm and is centred around the top corner of the slider box. -->
     <!-- - The axis of rotation is -1 in Y, so that positive is "up" -->
     <!-- - The upper limit uses xacro's mathematical features -->
@@ -103,9 +92,8 @@
         <child link="arm_link"/>
         <axis xyz="0 -1 0"/>
         <limit lower="0" upper="${pi/2}" velocity="100" effort="100"/> 
-        <dynamics damping="100.0" friction="10.0"/>
+        <!-- <dynamics damping="10.0" friction="10.0"/> -->
     </joint>
-
 
     <!-- arm_link describes the arm -->
     <!-- - We use the "property" feature to define the arm length and radius and use them multiple times -->
@@ -133,7 +121,6 @@
         </xacro:inertial_cylinder>
     </link>
 
-
     <!-- camera_joint describes where the camera is relative to the arm -->
     <!-- - Even though the camera isn't moving relative to the arm, it will probably be helpful to have its own link/frame rather than just adding more visuals to the arm -->
     <!-- - For this example, the camera_link origin will be at the centre of the camera's "sensor" -->
@@ -142,7 +129,6 @@
         <parent link="arm_link"/>
         <child link="camera_link"/>        
     </joint>
-
 
     <!-- camera_link describes the camera at the end of the arm -->
     <!-- - It has multiple visual elements, which ultimately get combined together -->
@@ -174,8 +160,6 @@
         </xacro:inertial_box>
     </link>
 
-
     <xacro:include filename="example_gazebo.xacro" />
-
 
 </robot>
